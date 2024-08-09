@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{layout::head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script th:src="@{/js/web/backoffice/colaborador/frmcolaborador.js}"
+        type="text/javascript"></script>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="card">
+    <div class="card-header">
+        Mantenimiento de Colaboradores
+    </div>
+    <div class="card-body">
+        <button type="button" class="btn btn-primary" id="btnagregar">Agregar</button>
+        <hr />
+        <div id="divmensaje"></div>
+        <table id="tblproduct" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Codigo Colaborador</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Cargo de Colaborador</th>
+                <th scope="col">Dni</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Telefono</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="colaborador :${listcolaborador}">
+                <td th:text="${colaborador.codcolaborador}"></td>
+                <td th:text="${colaborador.nombrecol}"></td>
+                <td th:text="${colaborador.apellidocol}"></td>
+                <td th:text="${colaborador.nombrecargo}"></td>
+                <td th:text="${colaborador.dnicol}"></td>
+                <td th:text="${colaborador.correocol}"></td>
+                <td th:text="${colaborador.telefonocol}"></td>
+                <td>
+                    <button type="button" class="btn btn-info btnactualizar"
+                            th:data-clicod="${colaborador.codcolaborador}"
+                            th:data-clidni="${colaborador.nombrecol}"
+                            th:data-clinombre="${colaborador.apellidocol}"
+                            th:data-clicel="${colaborador.dnicol}"
+                            th:data-clicorreo="${colaborador.correocol}"
+                            th:data-cliedad="${colaborador.telefonocol}"
+                            th:data-clidirec="${colaborador.codcargo}">Actualizar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalcolaborador" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtnombreproducto" placeholder="name@example.com">
+                    <label for="txtnombreproducto">Nombre del producto</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtprecioproducto" placeholder="name@example.com">
+                    <label for="txtprecioproducto">Precio del producto</label>
+                </div>
+                <div class="mb-3">
+                    <label for="cbocategoria">Elegir Tipo de Producto</label>
+                    <select id="cbocategoria" class="form-control"></select>
+                </div>
+                <div class="mb-3">
+                    <label for="cboproveedor">Elegir Proveedor</label>
+                    <select id="cboproveedor" class="form-control"></select>
+                </div>
+                <div class="form-check form-switch" id="switchproducto">
+                    <input class="form-check-input" type="checkbox"
+                           role="switch" id="cbactivo">
+                    <label class="form-check-label" for="cbactivo">
+                        Deshabilitado</label>
+                </div>
+                <input type="hidden" id="hddcodprod" value="0">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Cerrar</button>
+                <button id="btnguardar"
+                        type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

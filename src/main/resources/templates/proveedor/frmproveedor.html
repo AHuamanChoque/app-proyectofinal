@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{layout::head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script th:src="@{/js/web/backoffice/proveedor/frmproveedor.js}"
+        type="text/javascript"></script>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="card">
+    <div class="card-header">
+        Mantenimiento de Proveedores
+    </div>
+    <div class="card-body">
+        <button type="button" class="btn btn-primary" id="btnagregar">Agregar</button>
+        <hr />
+        <div id="divmensaje"></div>
+        <table id="tblproduct" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Codigo Proveedor</th>
+                <th scope="col">Razon Social</th>
+                <th scope="col">Ruc</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Distrito Proveedor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="proveedor :${listproveedor}">
+                <td th:text="${proveedor.codproveedor}"></td>
+                <td th:text="${proveedor.razonsocial}"></td>
+                <td th:text="${proveedor.rucproveedor}"></td>
+                <td th:text="${proveedor.telefonoproveedor}"></td>
+                <td th:text="${proveedor.descripcion}"></td>
+                <td>
+                    <button type="button" class="btn btn-info btnactualizar"
+                            th:data-provecod="${proveedor.codproveedor}"
+                            th:data-proverazon="${proveedor.razonsocial}"
+                            th:data-proveruc="${proveedor.rucproveedor}"
+                            th:data-provetelefono="${proveedor.telefonoproveedor}"
+                            th:data-provedes="${proveedor.descripcion}"
+                            th:data-provecodtipo="${proveedor.codtipoprovee}">Actualizar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalproveedor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Proveedor</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtrazonsocial" placeholder="name@example.com">
+                    <label for="txtrazonsocial">Razon Social</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtrucproveedor" placeholder="name@example.com">
+                    <label for="txtrucproveedor">Ruc</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtelefonoproveedor" placeholder="name@example.com">
+                    <label for="txtelefonoproveedor">Telefono Proveedor</label>
+                </div>
+                <div class="mb-3">
+                    <label for="cbodescripcion">Distrito Proveedor</label>
+                    <select id="cbodescripcion" class="form-control"></select>
+                </div>
+                <div >
+                </div>
+                <input type="hidden" id="hddcodprove" value="0">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Cerrar</button>
+                <button id="btnguardar"
+                        type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

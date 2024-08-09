@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{layout::head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script th:src="@{/js/web/backoffice/clientes/frmclientes.js}"
+        type="text/javascript"></script>
+<nav th:replace="~{layout::menu}"></nav>
+<div class="card">
+    <div class="card-header">
+        Mantenimiento de Clientes
+    </div>
+    <div class="card-body">
+        <button type="button" class="btn btn-primary" id="btnagregar">Agregar</button>
+        <hr />
+        <div id="divmensaje"></div>
+        <table id="tblproduct" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Codigo Cliente</th>
+                <th scope="col">Dni</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Sexo</th>
+                <th scope="col">Dirección</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="clientes :${listclientes}">
+                <td th:text="${clientes.codclientes}"></td>
+                <td th:text="${clientes.dnicli}"></td>
+                <td th:text="${clientes.nombrecli}"></td>
+                <td th:text="${clientes.apellidocli}"></td>
+                <td th:text="${clientes.celularcli}"></td>
+                <td th:text="${clientes.correocli}"></td>
+                <td th:text="${clientes.edadcli}"></td>
+                <td th:text="${clientes.sexocli}"></td>
+                <td th:text="${clientes.direccioncli}"></td>
+                <td>
+                    <button type="button" class="btn btn-info btnactualizar"
+                            th:data-clicod="${clientes.codclientes}"
+                            th:data-clidni="${clientes.dnicli}"
+                            th:data-clinombre="${clientes.nombrecli}"
+                            th:data-cliape="${clientes.apellidocli}"
+                            th:data-clicel="${clientes.celularcli}"
+                            th:data-clicorreo="${clientes.correocli}"
+                            th:data-cliedad="${clientes.edadcli}"
+                            th:data-clisex="${clientes.sexocli}"
+                            th:data-clidirec="${clientes.direccioncli}">Actualizar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalclientes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtdnicli" placeholder="name@example.com">
+                    <label for="txtdnicli">Dni</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtnombrecli" placeholder="name@example.com">
+                    <label for="txtnombrecli">Nombres</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtapellidocli" placeholder="name@example.com">
+                    <label for="txtapellidocli">Apellidos</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtcelular" placeholder="name@example.com">
+                    <label for="txtcelular">Celular</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtcorreo" placeholder="name@example.com">
+                    <label for="txtcorreo">E-mail</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtedad" placeholder="name@example.com">
+                    <label for="txtedad">Edad</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtsexo" placeholder="name@example.com">
+                    <label for="txtsexo">Sexo</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                           id="txtdireccion" placeholder="name@example.com">
+                    <label for="txtdireccion">Dirección</label>
+                </div>
+
+                <div >
+
+                </div>
+                <input type="hidden" id="hddcodcli" value="0">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Cerrar</button>
+                <button id="btnguardar"
+                        type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

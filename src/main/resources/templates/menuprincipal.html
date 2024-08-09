@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licorería Whisky</title>
+    <link rel="stylesheet" href="styleslicoreria.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-14axZxBf/JG2LZHU6A4UzFOfr8OT0FqvB7QgoEJtZKJ/0iwx7EB1tvPA5FLJ3uLG" crossorigin="anonymous">
+    <style>
+
+        .products-section {
+            scroll-margin-top: 90px; /* Ajusta este valor según la altura de tu menú */
+        }
+
+        .products-section::before {
+            content: "";
+            display: block;
+            height: 95px; /* Ajusta este valor según la altura de tu menú */
+            margin-top: -95px; /* Ajusta este valor para compensar el margen */
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+<nav th:fragment="menu"
+     class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{auth/dashboard}">IDAT</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{auth/dashboard}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Mantenimiento
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/producto}">
+                            Producto</a></li>
+
+                        <li><a class="dropdown-item" th:href="@{/categoria}">
+                            Categoria de Productos</a></li>
+
+                        <li><a class="dropdown-item" th:href="@{/proveedor}">
+                            Proveedores</a></li>
+                        <li><a class="dropdown-item" th:href="@{/clientes}">
+                            Clientes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/colaborador}">
+                            Colaboradores</a></li>
+                        <li><a class="dropdown-item" th:href="@{/seguridad/usuario/registro}">
+                            Usuarios</a></li>
+                        <li><a class="dropdown-item" th:href="@{/cargo}">
+                            Cargo de Colaboradores</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search" th:action="@{/logout}">
+                <button type="submit" class="btn btn-success" >Cerrar Sesión</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+<header>
+    <div class="header-container">
+        <div class="logo1">
+            <img src="/images/logo1.jpg" alt="Logo de Licorerías Wando">
+        </div>
+        <div class="title-container">
+            <div class="title">
+                <h1>Licoreria Whisky</h1>
+                <p>SI LO PRUEBAS NO LO DEJAS</p>
+            </div>
+        </div>
+        <div class="login">
+            <button id="login-btn" class="btn btn-danger">Iniciar Sesión</button>
+            <button id="register-btn" class="btn btn-danger">Registrarse</button>
+        </div>
+        <div class="cart">
+            <button id="cart-btn" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#cartModal">
+                <i class="fas fa-shopping-cart"></i> Carrito
+            </button>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><a th:href="@{/producto}" id="btn-inicio">Inicio</a></li>
+            <li><a id="btn-ofertas">Oferta de Licores</a></li>
+            <li><a id="btn-todos">Todos los Licores</a></li>
+            <li><a id="btn-rones">Rones</a></li>
+            <li><a id="btn-espumantes">Espumantes</a></li>
+            <li><a id="btn-whiskies">Whiskies</a></li>
+            <li><a id="btn-vodkas">Vodkas</a></li>
+            <li><a id="btn-vinos">Vinos</a></li>
+            <li><a id="btn-piscos">Piscos</a></li>
+            <li><a id="btn-tequilas">Tequilas</a></li>
+            <li>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="search-input" placeholder="Buscar producto...">
+                    <button class="btn btn-outline-dark" id="search-btn">Buscar</button>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <section id="inicio" class="products-section">
+        <h2>Bienvenido</h2>
+        <div class="products-container">
+            <div class="productinicio">
+                <h3>Bienvenido a la licorería Whisky, sírvase a navegar por la página y espero disfrute de los productos y ofertas que tenemos para usted</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="ofertas" class="products-section">
+        <h2>OFERTAS DE LICORES</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product">
+                <img src="/images/licor1.jpg" alt="Licor 1">
+                <p>Descripción del licor 1</p>
+                <p>Precio: $30.00</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="product">
+                <img src="/images/licor2.jpg" alt="Licor 2">
+                <p>Descripción del licor 2</p>
+                <p>Precio: $160.00</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="product">
+                <img src="/images/licor3.jpg" alt="Licor 3">
+                <p>Descripción del licor 3</p>
+                <p>Precio: $90.00</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="todos" class="products-section">
+        <h2>TODOS LOS LICORES</h2>
+        <div class="products-container">
+            <!-- Producto 4 -->
+            <div class="product">
+                <img src="/images/licor4.jpg" alt="Licor 4">
+                <p>Descripción del licor 4</p>
+                <p>Precio: $100.00</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="product">
+                <img src="/images/licor5.jpg" alt="Licor 5">
+                <p>Descripción del licor 5</p>
+                <p>Precio: $150.00</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 6 -->
+            <div class="product">
+                <img src="/images/licor6.jpg" alt="Licor 6">
+                <p>Descripción del licor 6</p>
+                <p>Precio: $110.00</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 7 -->
+            <div class="product">
+                <img src="/images/licor7.jpg" alt="Licor 7">
+                <p>Descripción del licor 7</p>
+                <p>Precio: $130.00</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 8 -->
+            <div class="product">
+                <img src="/images/licor8.jpg" alt="Licor 8">
+                <p>Descripción del licor 8</p>
+                <p>Precio: $140.00</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="rones" class="products-section">
+        <h2>RONES</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product">
+                <img src="/images/RON1.jpg" alt="Ron 1">
+                <p>Ron Flor De Caña Añejo 4 Años Botella 1.75L</p>
+                <p>Precio: S/89.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="product">
+                <img src="/images/RON2.jpg" alt="Ron 2">
+                <p>Ron Flor De Caña 5 Años Botella 1L</p>
+                <p>Precio: S/69.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="product">
+                <img src="/images/RON3.jpg" alt="Ron 3">
+                <p>Ron Cartavio Superior Botella 750ml</p>
+                <p>Precio: S/23.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 4 -->
+            <div class="product">
+                <img src="/images/RON4.JPG" alt="Ron 4">
+                <p>Ron Cartavio Blanco Botella 750ml</p>
+                <p>Precio: S/23.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="product">
+                <img src="/images/RON5.JPG" alt="Ron 5">
+                <p>Ron Cartavio Blanco Botella 1L</p>
+                <p>Precio: S/27.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="espumantes" class="products-section">
+        <h2>ESPUMANTES</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product">
+                <img src="/images/ESPUMANTE1.JPG" alt="Espumante 1">
+                <p>Espumante Ssantiago Queirolo Primado Botella 750ml</p>
+                <p>Precio: S/16.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="product">
+                <img src="/images/ESPUMANTE2.JPG" alt="Espumante 2">
+                <p>Espumante Borgoña Santiago Queirolo Botella 750ml</p>
+                <p>Precio: S/17.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="product">
+                <img src="/images/ESPUMANTE3.JPG" alt="Espumante 3">
+                <p>Espumante Santiago Queirolo Primadonna Botella 750ml</p>
+                <p>Precio: S/22.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="whiskies" class="products-section">
+        <h2>WHISKIES</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product">
+                <img src="/images/WHISKY1.jpg" alt="Whisky 1">
+                <p>Whisky Johnny Walker Black Label 750ml</p>
+                <p>Precio: S/99.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="product">
+                <img src="/images/WHISKY2.jpg" alt="Whisky 2">
+                <p>Whisky Chivas Regal 12 Años 1L</p>
+                <p>Precio: S/139.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="product">
+                <img src="/images/WHISKY3.jpg" alt="Whisky 3">
+                <p>Whisky Johnnie Walker Green Label Botella 750ml</p>
+                <p>Precio: S/269.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 4 -->
+            <div class="product">
+                <img src="/images/WHISKY4.jpg" alt="Whisky 4">
+                <p>Whisky Chivas Regal 12 Años Botella 1L</p>
+                <p>Precio: S/124.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="product">
+                <img src="/images/WHISKY5.jpg" alt="Whisky 5">
+                <p>Whisky Johnnie Walker Gold Label Reserve Botella 750ml</p>
+                <p>Precio: S/209.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="vodkas" class="products-section">
+        <h2>VODKAS</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product">
+                <img src="/images/VODKA1.jpg" alt="Vodka 1">
+                <p>Vodka Absolut Botella 750ml</p>
+                <p>Precio: S/55.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="product">
+                <img src="/images/VODKA2.jpg" alt="Vodka 2">
+                <p>Vodka Smirnoff Botella 750ml</p>
+                <p>Precio: S/44.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="product">
+                <img src="/images/VODKA3.jpg" alt="Vodka 3">
+                <p>Vodka Elyx Botella 700 mL</p>
+                <p>Precio: S/129.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 4 -->
+            <div class="product">
+                <img src="/images/VODKA4.jpg" alt="Vodka 4">
+                <p>Vodka Eristoff Black Botella 700 mL</p>
+                <p>Precio: S/34.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="product">
+                <img src="/images/VODKA5.jpg" alt="Vodka 5">
+                <p>Vodka Smirnoff N 21 Botella 700 mL</p>
+                <p>Precio: S/35.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section id="vinos" class="products-section">
+        <h2>VINOS</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product">
+                <img src="/images/VINO1.jpg" alt="Vino 1">
+                <p>Vino Tacama Blanco de Blancos Botella 750ml</p>
+                <p>Precio: S/19.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="product">
+                <img src="/images/VINO2.jpg" alt="Vino 2">
+                <p>Vino Intipalka Chardonnay Botella 750ml</p>
+                <p>Precio: S/18.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="product">
+                <img src="/images/VINO3.jpg" alt="Vino 3">
+                <p>Vino Santiago Queirolo Gran Vino Borgoña Botella 750ml</p>
+                <p>Precio: S/15.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 4 -->
+            <div class="product">
+                <img src="/images/VINO4.jpg" alt="Vino 4">
+                <p>Vino Santa Helena Varietal Botella 750ml</p>
+                <p>Precio: S/22.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="product">
+                <img src="/images/VINO5.jpg" alt="Vino 5">
+                <p>Vino Tinto Malbec Viña Vieja Botella 750 ml</p>
+                <p>Precio: S/13.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="piscos" class="products-section">
+        <h2>PISCOS</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product">
+                <img src="/images/PISCO1.JPG" alt="Pisco 1">
+                <p>Pisco Ocucaje Mosto Verde Italia 500ml</p>
+                <p>Precio: S/59.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="product">
+                <img src="/images/PISCO2.JPG" alt="Pisco 2">
+                <p>Pisco Queirolo Quebranta 750ml</p>
+                <p>Precio: S/29.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="product">
+                <img src="/images/PISCO3.JPG" alt="Pisco 3">
+                <p>Pisco Ocucaje Quebranta 500ml</p>
+                <p>Precio: S/26.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 4 -->
+            <div class="product">
+                <img src="/images/PISCO4.jpg" alt="Pisco 4">
+                <p>Pisco Puro Quebranta Ocucaje Huaco Negro  Botella 750ml</p>
+                <p>Precio: S/72.50</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="product">
+                <img src="/images/PISCO5.jpg" alt="Pisco 5">
+                <p>Pisco Portón Mosto Verde Albilla Botella 750ml</p>
+                <p>Precio: S/82.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="tequilas" class="products-section">
+        <h2>TEQUILAS</h2>
+        <div class="products-container">
+            <!-- Producto 1 -->
+            <div class="product">
+                <img src="/images/TEQUILA1.JPG" alt="Tequila 1">
+                <p>Tequila Don Julio Blanco 750ml</p>
+                <p>Precio: S/129.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 2 -->
+            <div class="product">
+                <img src="/images/TEQUILA2.JPG" alt="Tequila 2">
+                <p>Tequila José Cuervo Tradicional Plata 750ml</p>
+                <p>Precio: S/69.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 3 -->
+            <div class="product">
+                <img src="/images/TEQUILA3.jpg" alt="Tequila 3">
+                <p>Tequila José Cuervo Especial Silver Botella 750ml</p>
+                <p>Precio: S/65.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 4 -->
+            <div class="product">
+                <img src="/images/TEQUILA4.JPG" alt="Tequila 4">
+                <p>Tequila 1800 Silver Botella 750ml</p>
+                <p>Precio: S/109.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+            <!-- Producto 5 -->
+            <div class="product">
+                <img src="/images/TEQUILA5.jpg" alt="Tequila 5">
+                <p>Tequila El Jimador Reposado Botella 750ml</p>
+                <p>Precio: S/89.90</p>
+                <button class="btn btn-success add-to-cart">Agregar al Carrito</button>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-container">
+        <div>
+            <p>Acerca de nosotros</p>
+            <p> Descubre Licorería Whisky, tu destino para bebidas premium y exclusivas. Nos enorgullece ofrecer una cuidadosa selección de licores y vinos de alta calidad, garantizando una experiencia de compra excepcional para nuestros clientes. Explora nuestro catálogo y déjate sorprender por nuestra pasión por la excelencia en cada botella.</p>
+            <p>Dirección</p>
+            <p>Encuéntranos en [Dirección], donde nos esforzamos por ofrecerte un servicio personalizado y un ambiente acogedor. Visítanos para encontrar la bebida perfecta para cualquier ocasión, desde eventos especiales hasta momentos de relajación. Únete a nuestra comunidad de amantes del buen gusto y descubre por qué somos la elección preferida en [Ciudad].</p>
+        </div>
+    </div>
+</footer>
+
+<div id="cartModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Carrito de Compras</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul id="cart-list" class="list-group">
+                    <!-- Aquí se añadirán los productos del carrito dinámicamente -->
+                </ul>
+                <p>Total: <span id="cart-total">$0.00</span></p>
+                <button class="btn btn-danger">Finalizar Compra</button>
+                <button id="continue-shopping" class="btn btn-primary">Continuar</button> <!-- Nuevo botón -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para Registrarse -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Registrarse</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="register-nombres" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="register-nombres" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-apellidos" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="register-apellidos" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-fecha-nacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="register-fecha-nacimiento" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-tipo-documento" class="form-label">Tipo de documento</label>
+                        <select class="form-select" id="register-tipo-documento" required>
+                            <option value="Carnet de extranjeria">Carnet de extranjeria</option>
+                            <option value="DNI">DNI</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-documento" class="form-label">Documento</label>
+                        <input type="text" class="form-control" id="register-documento" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-telefono" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control" id="register-telefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="register-email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-contraseña" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="register-contraseña" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-sexo" class="form-label">Sexo</label>
+                        <select class="form-select" id="register-sexo" required>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-direccion" class="form-label">Dirección</label>
+                        <textarea class="form-control" id="register-direccion" required></textarea>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Registrarse</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Iniciar Sesión -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="login-email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-contraseña" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="login-contraseña" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7n5Q30S1ZwHf5mLZk8T7tE2c5f5d5gXh36B" crossorigin="anonymous"></script>
+
+
+<!-- Tu script personalizado -->
+<script src="licoreria.js"></script>
+<script>
+    // Script para cerrar el modal y continuar navegando al hacer clic en "Continuar"
+    document.getElementById('continue-shopping').addEventListener('click', function() {
+        $('#cartModal').modal('hide'); // Cierra el modal del carrito de compras
+    });
+</script>
+
+
+
+</body>
+</html>
